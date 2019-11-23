@@ -1,8 +1,8 @@
 name: extended_list
-description: A new Flutter package.
-version: 0.0.1
-author:
-homepage:
+description: extended ListView/GridView support collectGarbage/viewportBuilder call back, lastChildLayoutTypeBuilder(layout lastChild with full crossAxis extend) and closeToTrailing(layout close to trailing).
+version: 0.1.0
+author: zmtzawqlp <zmtzawqlp@live.com>
+homepage: https://github.com/fluttercandies/extended_list
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,8 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  extended_list_library: 
-    path: E:\Flutter\FlutterCandies\extended_list_library  
+  extended_list_library: ^0.1.1
     
 dev_dependencies:
   flutter_test:

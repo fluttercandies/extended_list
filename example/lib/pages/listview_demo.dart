@@ -3,6 +3,7 @@ import 'package:example/common/widget_builder.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_list/extended_list.dart';
+
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
@@ -28,11 +29,12 @@ class _ListViewDemoState extends State<ListViewDemo> {
       appBar: AppBar(
         title: Text("ListView"),
       ),
-      body: ExtendedListView.builder(
+      body: 
+      ExtendedListView.builder(
         extendedListDelegate: ExtendedListDelegate(
 
             /// follow max child trailing layout offset and layout with full cross axis extend
-            /// last child as loadmore item/no more item in [GridView] and [WaterfallFlow]
+            /// last child as loadmore item/no more item in [ExtendedGridView] and [WaterfallFlow]
             /// with full cross axis extend
             //  LastChildLayoutType.fullCrossAxisExtend,
 

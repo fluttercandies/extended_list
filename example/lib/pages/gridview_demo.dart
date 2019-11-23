@@ -38,7 +38,7 @@ class _GridViewDemoState extends State<GridViewDemo> {
         ),
         extendedListDelegate: ExtendedListDelegate(
           /// follow max child trailing layout offset and layout with full cross axis extend
-          /// last child as loadmore item/no more item in [GridView] and [WaterfallFlow]
+          /// last child as loadmore item/no more item in [ExtendedGridView] and [WaterfallFlow]
           /// with full cross axis extend
           //  LastChildLayoutType.fullCrossAxisExtend,
 

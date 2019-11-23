@@ -84,14 +84,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.1.0"
   extended_list_library:
     dependency: transitive
     description:
       path: "E:\\Flutter\\FlutterCandies\\extended_list_library"
       relative: false
     source: path
-    version: "0.1.0"
+    version: "0.1.1"
   ff_annotation_route:
     dependency: "direct dev"
     description:
