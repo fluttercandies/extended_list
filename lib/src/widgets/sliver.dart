@@ -4,6 +4,9 @@ import 'package:extended_list/src/rendering/sliver_list.dart';
 import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+///
+///  create by zmtzawqlp on 2019/11/23
+///
 
 /// A sliver that places multiple box children in a linear array along the main
 /// axis.
@@ -41,7 +44,7 @@ class ExtendedSliverList extends SliverMultiBoxAdaptorWidget {
     this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
-  /// A delegate that controls the last child layout of the children within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   final ExtendedListDelegate extendedListDelegate;
 
   @override
@@ -117,7 +120,7 @@ class ExtendedSliverFixedExtentList extends SliverMultiBoxAdaptorWidget {
   /// The extent the children are forced to have in the main axis.
   final double itemExtent;
 
-  /// A delegate that controls the last child layout of the children within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   final ExtendedListDelegate extendedListDelegate;
   @override
   ExtendedRenderSliverFixedExtentList createRenderObject(BuildContext context) {
@@ -248,8 +251,9 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
   /// The delegate that controls the size and position of the children.
   final SliverGridDelegate gridDelegate;
 
-  /// A delegate that controls the last child layout of the children within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   final ExtendedListDelegate extendedListDelegate;
+
   @override
   ExtendedRenderSliverGrid createRenderObject(BuildContext context) {
     final SliverMultiBoxAdaptorElement element = context;

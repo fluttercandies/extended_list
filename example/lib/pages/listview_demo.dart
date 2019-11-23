@@ -1,16 +1,17 @@
 import 'dart:math';
-
-///
-///  create by zmtzawqlp on 2019/11/22
-///
+import 'package:example/common/widget_builder.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_list/extended_list.dart';
+///
+///  create by zmtzawqlp on 2019/11/23
+///
 
 @FFRoute(
   name: "fluttercandies://listview",
   routeName: "ListView",
-  description: "show how to build waterfall flow in CustomScrollview.",
+  description:
+      "show no more item at trailing when children are not full of viewport.",
 )
 class ListViewDemo extends StatefulWidget {
   @override
@@ -25,23 +26,46 @@ class _ListViewDemoState extends State<ListViewDemo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text("GridView"),
+        title: Text("ListView"),
       ),
       body: ExtendedListView.builder(
         extendedListDelegate: ExtendedListDelegate(
-          lastChildLayoutTypeBuilder: (index) => index == length
-              ? LastChildLayoutType.foot
-              : LastChildLayoutType.none,
-        ),
+
+            /// follow max child trailing layout offset and layout with full cross axis extend
+            /// last child as loadmore item/no more item in [GridView] and [WaterfallFlow]
+            /// with full cross axis extend
+            //  LastChildLayoutType.fullCrossAxisExtend,
+
+            /// as foot at trailing and layout with full cross axis extend
+            /// show no more item at trailing when children are not full of viewport
+            /// if children is full of viewport, it's the same as fullCrossAxisExtend
+            //  LastChildLayoutType.foot,
+            lastChildLayoutTypeBuilder: (index) => index == length
+                ? LastChildLayoutType.foot
+                : LastChildLayoutType.none,
+            collectGarbage: (List<int> garbages) {
+              print("collect garbage : $garbages");
+            },
+            viewportBuilder: (int firstIndex, int lastIndex) {
+              print("viewport : [$firstIndex,$lastIndex]");
+            }),
+        //itemExtent: 50.0,
         itemBuilder: (c, index) {
           if (index == length) {
-            return _buildLastWidget(context);
+            if (hasMore) {
+              //delay 2 seconds,see loadmore clearly
+              Future.delayed(Duration(seconds: 2), () {
+                setState(() {
+                  length += 30;
+                });
+              });
+            }
+            return buildLastWidget(context: context, hasMore: hasMore);
           }
           final Color color = getRandomColor(index);
 
           return Container(
+            height: 50.0,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 color: getRandomColor(index)),
@@ -58,26 +82,6 @@ class _ListViewDemoState extends State<ListViewDemo> {
         itemCount: length + 1,
       ),
     );
-  }
-
-  Widget _buildLastWidget(BuildContext context) {
-    if (hasMore) {
-      Future.delayed(Duration(seconds: 1), () {
-        setState(() {
-          length += 30;
-        });
-      });
-    }
-
-    return Container(
-        alignment: Alignment.center,
-        color: Colors.grey.withOpacity(0.2),
-        margin: EdgeInsets.only(top: 5.0),
-        padding: EdgeInsets.symmetric(vertical: 5.0),
-        child: Text(
-          hasMore ? "loading..." : "no more",
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ));
   }
 
   getRandomColor(int index) {

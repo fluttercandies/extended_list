@@ -3,6 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 import 'dart:math' as math;
 
+///
+///  create by zmtzawqlp on 2019/11/23
+///
+
 /// A sliver that contains multiple box children that have the same extent in
 /// the main axis.
 ///
@@ -28,7 +32,7 @@ import 'dart:math' as math;
 ///  * [RenderSliverList], which does not require its children to have the same
 ///    extent in the main axis.
 abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
-    extends RenderSliverMultiBoxAdaptor {
+    extends RenderSliverMultiBoxAdaptor with ExtendedRenderObjectMixin {
   /// Creates a sliver that contains multiple box children that have the same
   /// extent in the main axis.
   ///
@@ -38,7 +42,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     this.extendedListDelegate,
   }) : super(childManager: childManager);
 
-  /// A delegate that controls the last child layout of the children within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   ExtendedListDelegate extendedListDelegate;
 
   /// The main-axis extent of each item.
@@ -193,6 +197,14 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
       final int leadingGarbage = _calculateLeadingGarbage(firstIndex);
       final int trailingGarbage = _calculateTrailingGarbage(targetLastIndex);
       collectGarbage(leadingGarbage, trailingGarbage);
+      //zmt
+      callCollectGarbage(
+        collectGarbage: extendedListDelegate?.collectGarbage,
+        leadingGarbage: leadingGarbage,
+        trailingGarbage: trailingGarbage,
+        firstIndex: firstIndex,
+        targetLastIndex: targetLastIndex,
+      );
     } else {
       collectGarbage(0, 0);
     }
@@ -229,6 +241,9 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
         return;
       }
     }
+
+    // zmt
+    handleCloseToTrailingBegin(extendedListDelegate?.closeToTrailing ?? false);
 
     RenderBox trailingChildWithLayout;
 
@@ -283,8 +298,36 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     final int lastIndex = indexOf(lastChild);
     final double leadingScrollOffset =
         indexToLayoutOffset(itemExtent, firstIndex);
-    final double trailingScrollOffset =
+    double trailingScrollOffset =
         indexToLayoutOffset(itemExtent, lastIndex + 1);
+
+    ///zmt
+    final result = handleCloseToTrailingEnd(
+        extendedListDelegate?.closeToTrailing ?? false, trailingScrollOffset);
+    if (result != trailingScrollOffset) {
+      trailingScrollOffset = result;
+      estimatedMaxScrollOffset = result;
+    }
+
+    ///zmt
+    final lastChildIsFoot = (extendedListDelegate?.lastChildLayoutTypeBuilder
+                ?.call(indexOf(lastChild)) ??
+            LastChildLayoutType.none) ==
+        LastChildLayoutType.foot;
+    if (lastChildIsFoot) {
+      //layout as normal constraints
+      lastChild.layout(constraints.asBoxConstraints(), parentUsesSize: true);
+      final paintExtend = paintExtentOf(lastChild);
+      trailingScrollOffset = childScrollOffset(lastChild) + paintExtend;
+      if (trailingScrollOffset < constraints.remainingPaintExtent) {
+        final SliverMultiBoxAdaptorParentData childParentData =
+            lastChild.parentData;
+        childParentData.layoutOffset =
+            constraints.remainingPaintExtent - paintExtend;
+        trailingScrollOffset = constraints.remainingPaintExtent;
+      }
+      estimatedMaxScrollOffset = trailingScrollOffset;
+    }
 
     assert(firstIndex == 0 ||
         childScrollOffset(firstChild) - scrollOffset <=
@@ -322,6 +365,21 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
         ? getMaxChildIndexForScrollOffset(
             targetEndScrollOffsetForPaint, itemExtent)
         : null;
+
+    ///zmt
+    callViewportBuilder(
+        viewportBuilder: extendedListDelegate?.viewportBuilder,
+        getPaintExtend: (child) {
+          final LastChildLayoutType lastChildLayoutType = extendedListDelegate
+                  .lastChildLayoutTypeBuilder
+                  ?.call(indexOf(child)) ??
+              LastChildLayoutType.none;
+          if (lastChildLayoutType != LastChildLayoutType.none) {
+            return paintExtentOf(child);
+          }
+          return itemExtent;
+        });
+
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
       paintExtent: paintExtent,

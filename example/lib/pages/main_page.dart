@@ -1,5 +1,5 @@
 ///
-///  create by zmtzawqlp on 2019/11/22
+///  create by zmtzawqlp on 2019/11/23
 ///
 
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class MainPage extends StatelessWidget {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("extended image"),
+        title: Text("ExtendedList Demo"),
       ),
       body: ListView.builder(
         itemBuilder: (c, index) {

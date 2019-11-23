@@ -4,23 +4,33 @@
 // **************************************************************************
 
 import 'package:flutter/widgets.dart';
+import 'pages/chat_list_demo.dart';
 import 'pages/gridview_demo.dart';
 import 'pages/listview_demo.dart';
 import 'pages/main_page.dart';
 
 RouteResult getRouteResult({String name, Map<String, dynamic> arguments}) {
   switch (name) {
+    case "fluttercandies://chatlist":
+      return RouteResult(
+        widget: ChatListDemo(),
+        routeName: "ChatList",
+        description:
+            "how to build layout(reverse=true) close to trailing when children are not full of viewport.",
+      );
     case "fluttercandies://gridview":
       return RouteResult(
         widget: GridViewDemo(),
-        routeName: "grid view",
-        description: "show how to build waterfall flow in CustomScrollview.",
+        routeName: "GridView",
+        description:
+            "show no more/loadmore at trailing when children are not full of viewport.",
       );
     case "fluttercandies://listview":
       return RouteResult(
         widget: ListViewDemo(),
         routeName: "ListView",
-        description: "show how to build waterfall flow in CustomScrollview.",
+        description:
+            "show no more item at trailing when children are not full of viewport.",
       );
     case "fluttercandies://mainpage":
       return RouteResult(
@@ -59,6 +69,7 @@ class RouteResult {
 enum PageRouteType { material, cupertino, transparent }
 
 List<String> routeNames = [
+  "fluttercandies://chatlist",
   "fluttercandies://gridview",
   "fluttercandies://listview",
   "fluttercandies://mainpage"

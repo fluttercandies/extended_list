@@ -1,16 +1,17 @@
 import 'dart:math';
-
-///
-///  create by zmtzawqlp on 2019/11/22
-///
+import 'package:example/common/widget_builder.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_list/extended_list.dart';
+///
+///  create by zmtzawqlp on 2019/11/23
+///
 
 @FFRoute(
   name: "fluttercandies://gridview",
-  routeName: "grid view",
-  description: "show how to build waterfall flow in CustomScrollview.",
+  routeName: "GridView",
+  description:
+      "show no more/loadmore at trailing when children are not full of viewport.",
 )
 class GridViewDemo extends StatefulWidget {
   @override
@@ -36,13 +37,36 @@ class _GridViewDemoState extends State<GridViewDemo> {
           mainAxisSpacing: 5.0,
         ),
         extendedListDelegate: ExtendedListDelegate(
+          /// follow max child trailing layout offset and layout with full cross axis extend
+          /// last child as loadmore item/no more item in [GridView] and [WaterfallFlow]
+          /// with full cross axis extend
+          //  LastChildLayoutType.fullCrossAxisExtend,
+
+          /// as foot at trailing and layout with full cross axis extend
+          /// show no more item at trailing when children are not full of viewport
+          /// if children is full of viewport, it's the same as fullCrossAxisExtend
+          //  LastChildLayoutType.foot,
           lastChildLayoutTypeBuilder: (index) => index == length
               ? LastChildLayoutType.foot
               : LastChildLayoutType.none,
+          collectGarbage: (List<int> garbages) {
+            print("collect garbage : $garbages");
+          },
+          viewportBuilder: (int firstIndex, int lastIndex) {
+            print("viewport : [$firstIndex,$lastIndex]");
+          },
         ),
         itemBuilder: (c, index) {
           if (index == length) {
-            return _buildLastWidget(context);
+            if (hasMore) {
+              //delay 2 seconds,see loadmore clearly
+              Future.delayed(Duration(seconds: 2), () {
+                setState(() {
+                  length += 30;
+                });
+              });
+            }
+            return buildLastWidget(context: context, hasMore: hasMore);
           }
           final Color color = getRandomColor(index);
 
@@ -63,26 +87,6 @@ class _GridViewDemoState extends State<GridViewDemo> {
         itemCount: length + 1,
       ),
     );
-  }
-
-  Widget _buildLastWidget(BuildContext context) {
-    if (hasMore) {
-      Future.delayed(Duration(seconds: 1), () {
-        setState(() {
-          length += 30;
-        });
-      });
-    }
-
-    return Container(
-        alignment: Alignment.center,
-        color: Colors.grey.withOpacity(0.2),
-        margin: EdgeInsets.only(top: 5.0),
-        padding: EdgeInsets.symmetric(vertical: 5.0),
-        child: Text(
-          hasMore ? "loading..." : "no more",
-          style: TextStyle(color: Theme.of(context).primaryColor),
-        ));
   }
 
   getRandomColor(int index) {

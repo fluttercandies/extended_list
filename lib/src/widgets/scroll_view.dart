@@ -4,6 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
+///
+///  create by zmtzawqlp on 2019/11/23
+///
 
 /// A scrollable list of widgets arranged linearly.
 ///
@@ -639,7 +642,7 @@ class ExtendedListView extends BoxScrollView {
   /// respectively.
   final SliverChildDelegate childrenDelegate;
 
-  /// A delegate that controls the last child layout of the children within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   final ExtendedListDelegate extendedListDelegate;
 
   @override
@@ -1137,7 +1140,7 @@ class ExtendedGridView extends BoxScrollView {
   /// the given child list.
   final SliverChildDelegate childrenDelegate;
 
-  /// A delegate that controls the last child layout of the children within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   final ExtendedListDelegate extendedListDelegate;
 
   @override
