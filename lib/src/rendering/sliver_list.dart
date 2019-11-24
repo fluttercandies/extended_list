@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';

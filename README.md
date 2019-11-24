@@ -6,6 +6,13 @@ extended list(ListView/GridView) support collectGarbage/viewportBuilder call bac
 
 Language: English | [中文简体](README-ZH.md)
 
+- [extended_list](#extendedlist)
+  - [Use](#use)
+  - [CollectGarbage](#collectgarbage)
+  - [ViewportBuilder](#viewportbuilder)
+  - [LastChildLayoutTypeBuilder](#lastchildlayouttypebuilder)
+  - [CloseToTrailing](#closetotrailing)
+
 ## Use
 
 * add library to your pubspec.yaml
@@ -50,7 +57,11 @@ track the indexs go into the viewport, it's not include cache extent.
 
 ## LastChildLayoutTypeBuilder
 
-build lastChild as special child.
+build lastChild as special child in the case that it is loadmore/no more item.
+
+![img](https://github.com/fluttercandies/Flutter_Candies/blob/master/gif/extended_list/gridview.gif)
+
+![img](https://github.com/fluttercandies/Flutter_Candies/blob/master/gif/extended_list/listview.gif)
 
 ```dart
         enum LastChildLayoutType {
@@ -74,4 +85,44 @@ build lastChild as special child.
                 ? LastChildLayoutType.foot
                 : LastChildLayoutType.none,
             ),
+```
+
+## CloseToTrailing
+
+when reverse property of List is true, layout is as following.
+it likes chat list, and new session will insert to zero index
+but it's not right when items are not full of viewport.
+
+```
+     trailing
+-----------------
+|               |
+|               |
+|     item2     |
+|     item1     |
+|     item0     |
+-----------------
+     leading
+```     
+
+to solve it, you could set closeToTrailing to true, layout is as following.
+support [ExtendedGridView],[ExtendedList],[WaterfallFlow].
+and it also works when reverse is flase, layout will close to trailing.
+
+```
+     trailing
+-----------------
+|     item2     |
+|     item1     |
+|     item0     |
+|               |
+|               |
+-----------------
+     leading
+```     
+
+```dart
+      ExtendedListView.builder(
+        reverse: true,
+        extendedListDelegate: ExtendedListDelegate(closeToTrailing: true),
 ```
