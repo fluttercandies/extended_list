@@ -1,3 +1,7 @@
+## [0.1.2]
+
+* add license.
+  
 ## [0.1.1]
 
 * reduce description.
