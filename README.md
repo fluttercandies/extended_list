@@ -1,6 +1,6 @@
 # extended_list
 
-extended list(ListView/GridView) support collectGarbage/viewportBuilder call back, lastChildLayoutTypeBuilder(layout lastChild with full crossAxis extend) and closeToTrailing(layout close to trailing).
+extended list(ListView/GridView) support track collect garbage children/viewport indexes, build lastChild as special child in the case that it is loadmore/no more item and enable to layout close to trailing.
 
 [![pub package](https://img.shields.io/pub/v/extended_list.svg)](https://pub.dartlang.org/packages/extended_list) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
 
@@ -33,7 +33,7 @@ dependencies:
 
 ## CollectGarbage
 
-track the indexs are collect, you can collect garbage at that monment(for example Image cache)
+track the indexes are collect, you can collect garbage at that monment(for example Image cache)
 
 ```dart
         ExtendedListView.builder(
@@ -45,7 +45,7 @@ track the indexs are collect, you can collect garbage at that monment(for exampl
 
 ## ViewportBuilder
 
-track the indexs go into the viewport, it's not include cache extent.
+track the indexes go into the viewport, it's not include cache extent.
 
 ```dart
         ExtendedListView.builder(
@@ -90,7 +90,7 @@ build lastChild as special child in the case that it is loadmore/no more item.
 ## CloseToTrailing
 
 when reverse property of List is true, layout is as following.
-it likes chat list, and new session will insert to zero index
+it likes chat list, and new session will insert to zero index.
 but it's not right when items are not full of viewport.
 
 ```

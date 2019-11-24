@@ -1,6 +1,6 @@
 # extended_list
 
-扩展(ListView/GridView) 支持列表Item回收/Viewport改变回调;最后一个Item特殊布局;以及针对reverse为true时候将布局靠近底部的布局
+扩展(ListView/GridView) 支持追踪列表元素回收/Viewport的index改变,最后一个元素为loadmore/no more元素时候的特殊布局,以及针对reverse为true时候布局靠近底部的布局。
 
 [![pub package](https://img.shields.io/pub/v/extended_list.svg)](https://pub.dartlang.org/packages/extended_list) [![GitHub stars](https://img.shields.io/github/stars/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/stargazers) [![GitHub forks](https://img.shields.io/github/forks/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/network)  [![GitHub license](https://img.shields.io/github/license/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/blob/master/LICENSE)  [![GitHub issues](https://img.shields.io/github/issues/fluttercandies/extended_list)](https://github.com/fluttercandies/extended_list/issues) <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5bcc0gy"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="flutter-candies" title="flutter-candies"></a>
 
