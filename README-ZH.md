@@ -8,7 +8,7 @@ Language: [English](README.md) | 中文简体
 
 - [extended_list](#extendedlist)
   - [使用](#%e4%bd%bf%e7%94%a8)
-  - [列表Item回收](#%e5%88%97%e8%a1%a8item%e5%9b%9e%e6%94%b6)
+  - [列表元素回收](#%e5%88%97%e8%a1%a8%e5%85%83%e7%b4%a0%e5%9b%9e%e6%94%b6)
   - [ViewportBuilder](#viewportbuilder)
   - [LastChildLayoutTypeBuilder](#lastchildlayouttypebuilder)
   - [CloseToTrailing](#closetotrailing)
@@ -31,9 +31,9 @@ dependencies:
   
 ```
 
-## 列表Item回收
+## 列表元素回收
 
-支持列表Item回收回调，你可以在这个时刻回收一些内存，比如图片的内存缓存。
+追踪列表元素回收，你可以在这个时刻回收一些内存，比如图片的内存缓存。
 
 ```dart
         ExtendedListView.builder(
@@ -45,7 +45,7 @@ dependencies:
 
 ## ViewportBuilder
 
-追踪进入Viewport的列表Item的index（即你看到的可视区域，并不包括缓存距离）
+追踪进入Viewport的列表元素的index（即你看到的可视区域，并不包括缓存距离）
 
 ```dart
         ExtendedListView.builder(
