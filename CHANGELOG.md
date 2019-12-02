@@ -1,3 +1,7 @@
+## [0.1.3]
+
+* fix issue about last one as foot.
+  
 ## [0.1.2]
 
 * add license.

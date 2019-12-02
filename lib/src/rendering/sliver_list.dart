@@ -287,13 +287,13 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
       final layoutType = extendedListDelegate?.lastChildLayoutTypeBuilder
               ?.call(indexOf(lastChild)) ??
           LastChildLayoutType.none;
-      final trailingLayoutOffset = childScrollOffset(lastChild);
+      final size = paintExtentOf(lastChild);
+      final trailingLayoutOffset = childScrollOffset(lastChild) + size;
       if (layoutType == LastChildLayoutType.foot &&
           trailingLayoutOffset < constraints.remainingPaintExtent) {
         final SliverMultiBoxAdaptorParentData childParentData =
             lastChild.parentData;
-        childParentData.layoutOffset =
-            constraints.remainingPaintExtent - paintExtentOf(lastChild);
+        childParentData.layoutOffset = constraints.remainingPaintExtent - size;
         endScrollOffset = constraints.remainingPaintExtent;
       }
       estimatedMaxScrollOffset = endScrollOffset;
