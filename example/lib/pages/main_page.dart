@@ -40,7 +40,7 @@ class MainPage extends StatelessWidget {
                 ),
               ),
               onPressed: () {
-                launch('https://github.com/fluttercandies/extended_image');
+                launch('https://github.com/fluttercandies/extended_list');
               },
             ),
           ),
