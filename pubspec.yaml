@@ -1,6 +1,6 @@
 name: extended_list
 description: extended list support track collect garbage/viewport indexes, build lastChild as special child and enable to layout close to trailing.
-version: 0.1.3
+version: 0.1.4
 author: zmtzawqlp <zmtzawqlp@live.com>
 homepage: https://github.com/fluttercandies/extended_list
 

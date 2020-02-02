@@ -1,3 +1,7 @@
+## [0.1.4]
+
+* add web demo.
+
 ## [0.1.3]
 
 * fix issue about last one as foot.
