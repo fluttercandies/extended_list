@@ -325,7 +325,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
-      paintExtent: paintExtent,
+      paintExtent: constraints.remainingPaintExtent,
       cacheExtent: cacheExtent,
       maxPaintExtent: estimatedMaxScrollOffset,
       // Conservative to avoid flickering away the clip during scroll.
