@@ -60,6 +60,7 @@ class _ChatListDemoState extends State<ChatListDemo> {
         ///      leading
         ///
         extendedListDelegate: ExtendedListDelegate(closeToTrailing: true),
+        //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         itemBuilder: (c, index) {
           final Color color = getRandomColor(index);
           List<Widget> children = [
@@ -85,7 +86,12 @@ class _ChatListDemoState extends State<ChatListDemo> {
           if (index % 2 == 0) {
             children = children.reversed.toList();
           }
-          return Row(children: children);
+          return GestureDetector(
+            child: Row(children: children),
+            onTap: () {
+              print('click$index');
+            },
+          );
         },
         itemCount: sessions.length,
       ),

@@ -1,3 +1,7 @@
+## [0.1.5]
+
+* fix histest when closeToTrailing is true.
+  
 ## [0.1.4]
 
 * add web demo.

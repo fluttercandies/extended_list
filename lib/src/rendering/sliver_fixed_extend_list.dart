@@ -177,6 +177,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
+    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -243,7 +244,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     }
 
     // zmt
-    handleCloseToTrailingBegin(extendedListDelegate?.closeToTrailing ?? false);
+    handleCloseToTrailingBegin(closeToTrailing);
 
     RenderBox trailingChildWithLayout;
 
@@ -302,8 +303,8 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
         indexToLayoutOffset(itemExtent, lastIndex + 1);
 
     ///zmt
-    final result = handleCloseToTrailingEnd(
-        extendedListDelegate?.closeToTrailing ?? false, trailingScrollOffset);
+    final result =
+        handleCloseToTrailingEnd(closeToTrailing, trailingScrollOffset);
     if (result != trailingScrollOffset) {
       trailingScrollOffset = result;
       estimatedMaxScrollOffset = result;

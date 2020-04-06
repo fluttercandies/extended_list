@@ -66,6 +66,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
+    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;    
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -121,7 +122,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
     }
 
     // zmt
-    handleCloseToTrailingBegin(extendedListDelegate?.closeToTrailing ?? false);
+    handleCloseToTrailingBegin(closeToTrailing);
 
     RenderBox trailingChildWithLayout;
 
@@ -192,7 +193,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
     );
 
     final result = handleCloseToTrailingEnd(
-        extendedListDelegate?.closeToTrailing ?? false, trailingScrollOffset);
+        closeToTrailing, trailingScrollOffset);
     if (result != trailingScrollOffset) {
       trailingScrollOffset = result;
       estimatedTotalExtent = result;

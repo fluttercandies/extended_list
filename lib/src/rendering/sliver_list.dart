@@ -52,6 +52,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
+    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -88,7 +89,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
     }
 
     // zmt
-    handleCloseToTrailingBegin(extendedListDelegate?.closeToTrailing ?? false);
+    handleCloseToTrailingBegin(closeToTrailing);
 
     // We have at least one child.
 
@@ -279,8 +280,8 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
     double estimatedMaxScrollOffset;
 
     //zmt
-    endScrollOffset = handleCloseToTrailingEnd(
-        extendedListDelegate?.closeToTrailing ?? false, endScrollOffset);
+    endScrollOffset =
+        handleCloseToTrailingEnd(closeToTrailing, endScrollOffset);
 
     if (reachedEnd) {
       ///zmt
@@ -308,21 +309,28 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
       assert(estimatedMaxScrollOffset >=
           endScrollOffset - childScrollOffset(firstChild));
     }
-    final double paintExtent = calculatePaintOffset(
+
+    final firstChildScrollOffset = childScrollOffset(firstChild);
+    var paintExtent = calculatePaintOffset(
       constraints,
-      from: childScrollOffset(firstChild),
+      from: firstChildScrollOffset,
       to: endScrollOffset,
     );
     final double cacheExtent = calculateCacheOffset(
       constraints,
-      from: childScrollOffset(firstChild),
+      from: firstChildScrollOffset,
       to: endScrollOffset,
     );
     final double targetEndScrollOffsetForPaint =
         constraints.scrollOffset + constraints.remainingPaintExtent;
 
     callViewportBuilder(viewportBuilder: extendedListDelegate?.viewportBuilder);
-
+    //fix hittest 
+    if (closeToTrailing &&
+        indexOf(firstChild) == 0 &&
+        firstChildScrollOffset != 0.0) {
+      paintExtent += firstChildScrollOffset;
+    }
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
       paintExtent: paintExtent,
