@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 
-
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
@@ -482,6 +481,7 @@ class ExtendedListView extends BoxScrollView {
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
     double cacheExtent,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
     this.extendedListDelegate,
@@ -525,6 +525,7 @@ class ExtendedListView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: itemCount,
+          dragStartBehavior:dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -624,6 +625,7 @@ class ExtendedListView extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(childrenDelegate != null),
@@ -638,6 +640,7 @@ class ExtendedListView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount,
+          dragStartBehavior:dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -906,6 +909,7 @@ class ExtendedGridView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
@@ -926,6 +930,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
+          dragStartBehavior:dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -966,6 +971,7 @@ class ExtendedGridView extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
@@ -987,6 +993,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
+          dragStartBehavior:dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -1010,8 +1017,8 @@ class ExtendedGridView extends BoxScrollView {
     @required this.childrenDelegate,
     double cacheExtent,
     int semanticChildCount,
-    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
