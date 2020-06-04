@@ -1,7 +1,8 @@
+import 'dart:math' as math;
 import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math' as math;
+
 
 ///
 ///  create by zmtzawqlp on 2019/11/23
@@ -177,7 +178,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
-    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
+    final bool closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -257,7 +258,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
         geometry = SliverGeometry(scrollOffsetCorrection: index * itemExtent);
         return;
       }
-      final SliverMultiBoxAdaptorParentData childParentData = child.parentData;
+      final SliverMultiBoxAdaptorParentData childParentData = child.parentData as SliverMultiBoxAdaptorParentData;
       childParentData.layoutOffset = indexToLayoutOffset(itemExtent, index);
       assert(childParentData.index == index);
       trailingChildWithLayout ??= child;
@@ -266,7 +267,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     if (trailingChildWithLayout == null) {
       firstChild.layout(childConstraints);
       final SliverMultiBoxAdaptorParentData childParentData =
-          firstChild.parentData;
+          firstChild.parentData as SliverMultiBoxAdaptorParentData;
       childParentData.layoutOffset =
           indexToLayoutOffset(itemExtent, firstIndex);
       trailingChildWithLayout = firstChild;
@@ -290,7 +291,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
       }
       trailingChildWithLayout = child;
       assert(child != null);
-      final SliverMultiBoxAdaptorParentData childParentData = child.parentData;
+      final SliverMultiBoxAdaptorParentData childParentData = child.parentData as SliverMultiBoxAdaptorParentData;
       assert(childParentData.index == index);
       childParentData.layoutOffset =
           indexToLayoutOffset(itemExtent, childParentData.index);
@@ -303,7 +304,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
         indexToLayoutOffset(itemExtent, lastIndex + 1);
 
     ///zmt
-    final result =
+    final double result =
         handleCloseToTrailingEnd(closeToTrailing, trailingScrollOffset);
     if (result != trailingScrollOffset) {
       trailingScrollOffset = result;
@@ -311,18 +312,18 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     }
 
     ///zmt
-    final lastChildIsFoot = (extendedListDelegate?.lastChildLayoutTypeBuilder
+    final bool lastChildIsFoot = (extendedListDelegate?.lastChildLayoutTypeBuilder
                 ?.call(indexOf(lastChild)) ??
             LastChildLayoutType.none) ==
         LastChildLayoutType.foot;
     if (lastChildIsFoot) {
       //layout as normal constraints
       lastChild.layout(constraints.asBoxConstraints(), parentUsesSize: true);
-      final paintExtend = paintExtentOf(lastChild);
+      final double paintExtend = paintExtentOf(lastChild);
       trailingScrollOffset = childScrollOffset(lastChild) + paintExtend;
       if (trailingScrollOffset < constraints.remainingPaintExtent) {
         final SliverMultiBoxAdaptorParentData childParentData =
-            lastChild.parentData;
+            lastChild.parentData as SliverMultiBoxAdaptorParentData;
         childParentData.layoutOffset =
             constraints.remainingPaintExtent - paintExtend;
         trailingScrollOffset = constraints.remainingPaintExtent;
@@ -370,7 +371,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     ///zmt
     callViewportBuilder(
         viewportBuilder: extendedListDelegate?.viewportBuilder,
-        getPaintExtend: (child) {
+        getPaintExtend: (RenderBox child) {
           final LastChildLayoutType lastChildLayoutType = extendedListDelegate
                   .lastChildLayoutTypeBuilder
                   ?.call(indexOf(child)) ??
@@ -441,7 +442,9 @@ class ExtendedRenderSliverFixedExtentList
   double _itemExtent;
   set itemExtent(double value) {
     assert(value != null);
-    if (_itemExtent == value) return;
+    if (_itemExtent == value) {
+      return;
+    }
     _itemExtent = value;
     markNeedsLayout();
   }

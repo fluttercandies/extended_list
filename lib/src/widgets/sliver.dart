@@ -49,7 +49,7 @@ class ExtendedSliverList extends SliverMultiBoxAdaptorWidget {
 
   @override
   ExtendedRenderSliverList createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
     return ExtendedRenderSliverList(
       childManager: element,
       extendedListDelegate: extendedListDelegate,
@@ -124,7 +124,7 @@ class ExtendedSliverFixedExtentList extends SliverMultiBoxAdaptorWidget {
   final ExtendedListDelegate extendedListDelegate;
   @override
   ExtendedRenderSliverFixedExtentList createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
     return ExtendedRenderSliverFixedExtentList(
       childManager: element,
       itemExtent: itemExtent,
@@ -256,7 +256,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
 
   @override
   ExtendedRenderSliverGrid createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element = context as SliverMultiBoxAdaptorElement;
     return ExtendedRenderSliverGrid(
       childManager: element,
       gridDelegate: gridDelegate,

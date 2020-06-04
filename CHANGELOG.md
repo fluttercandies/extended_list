@@ -1,3 +1,8 @@
+## [1.0.0]
+
+* fix analysis_options.
+* support ScrollViewKeyboardDismissBehavior(breaking change 1.17.0)
+  
 ## [0.1.5]
 
 * fix histest when closeToTrailing is true.

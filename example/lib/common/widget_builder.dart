@@ -11,7 +11,7 @@ Widget buildLastWidget({BuildContext context, bool hasMore}) {
       //margin: EdgeInsets.only(top: 5.0),
       padding: EdgeInsets.symmetric(vertical: kIsWeb ? 10.0 : 5.0),
       child: Text(
-        hasMore ? "loading..." : "no more",
+        hasMore ? 'loading...' : 'no more',
         style: TextStyle(color: Theme.of(context).primaryColor),
       ));
 }

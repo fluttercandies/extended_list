@@ -1,9 +1,11 @@
+import 'dart:math' as math;
 import 'package:extended_list/src/widgets/sliver.dart';
 import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'dart:math' as math;
+
+
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
@@ -175,10 +177,10 @@ import 'dart:math' as math;
 ///    widget subtree with other widgets.
 ///
 ///  * Using [AutomaticKeepAlive] widgets (inserted by default when
-///    [addAutomaticKeepAlives] is true). Instead of unconditionally caching the
-///    child element subtree when scrolling off-screen like [KeepAlive],
-///    [AutomaticKeepAlive] can let whether to cache the subtree be determined
-///    by descendant logic in the subtree.
+///    [addAutomaticKeepAlives] is true). [AutomaticKeepAlive] allows descendant
+///    widgets to control whether the subtree is actually kept alive or not.
+///    This behavior is in contrast with [KeepAlive], which will unconditionally keep
+///    the subtree alive.
 ///
 ///    As an example, the [EditableText] widget signals its list child element
 ///    subtree to stay alive while its text field has input focus. If it doesn't
@@ -318,6 +320,8 @@ class ExtendedListView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
     this.extendedListDelegate,
   })  : childrenDelegate = SliverChildListDelegate(
           children,
@@ -337,6 +341,7 @@ class ExtendedListView extends BoxScrollView {
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, linear array of widgets that are created on demand.
@@ -388,7 +393,11 @@ class ExtendedListView extends BoxScrollView {
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     this.extendedListDelegate,
-  })  : childrenDelegate = SliverChildBuilderDelegate(
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
+  })  : assert(itemCount == null || itemCount >= 0),
+        assert(semanticChildCount == null || semanticChildCount <= itemCount),
+        childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
           childCount: itemCount,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -407,6 +416,7 @@ class ExtendedListView extends BoxScrollView {
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a fixed-length scrollable linear array of list "items" separated
@@ -472,6 +482,8 @@ class ExtendedListView extends BoxScrollView {
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
     double cacheExtent,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
     this.extendedListDelegate,
   })  : assert(itemBuilder != null),
         assert(separatorBuilder != null),
@@ -494,7 +506,7 @@ class ExtendedListView extends BoxScrollView {
             }
             return widget;
           },
-          childCount: _computeSemanticChildCount(itemCount),
+          childCount: _computeActualChildCount(itemCount),
           addAutomaticKeepAlives: addAutomaticKeepAlives,
           addRepaintBoundaries: addRepaintBoundaries,
           addSemanticIndexes: addSemanticIndexes,
@@ -512,7 +524,8 @@ class ExtendedListView extends BoxScrollView {
           shrinkWrap: shrinkWrap,
           padding: padding,
           cacheExtent: cacheExtent,
-          semanticChildCount: _computeSemanticChildCount(itemCount),
+          semanticChildCount: itemCount,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, linear array of widgets with a custom child model.
@@ -611,6 +624,8 @@ class ExtendedListView extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     this.extendedListDelegate,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(childrenDelegate != null),
         super(
           key: key,
@@ -623,6 +638,7 @@ class ExtendedListView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// If non-null, forces the children to have the given extent in the scroll
@@ -668,7 +684,7 @@ class ExtendedListView extends BoxScrollView {
   }
 
   // Helper method to compute the semantic child count for the separated constructor.
-  static int _computeSemanticChildCount(int itemCount) {
+  static int _computeActualChildCount(int itemCount) {
     return math.max(0, itemCount * 2 - 1);
   }
 }
@@ -890,6 +906,8 @@ class ExtendedGridView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     this.extendedListDelegate,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildListDelegate(
           children,
@@ -908,6 +926,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets that are created on demand.
@@ -947,6 +966,8 @@ class ExtendedGridView extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     this.extendedListDelegate,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
@@ -966,6 +987,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with both a custom
@@ -990,6 +1012,8 @@ class ExtendedGridView extends BoxScrollView {
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     this.extendedListDelegate,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : assert(gridDelegate != null),
         assert(childrenDelegate != null),
         super(
@@ -1004,6 +1028,7 @@ class ExtendedGridView extends BoxScrollView {
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with a fixed number of tiles in
@@ -1041,6 +1066,8 @@ class ExtendedGridView extends BoxScrollView {
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     this.extendedListDelegate,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -1065,6 +1092,7 @@ class ExtendedGridView extends BoxScrollView {
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with tiles that each have a
@@ -1101,6 +1129,8 @@ class ExtendedGridView extends BoxScrollView {
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     this.extendedListDelegate,
+    ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
+        ScrollViewKeyboardDismissBehavior.manual,
   })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,
@@ -1124,6 +1154,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
+          keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
   /// A delegate that controls the layout of the children within the [ExtendedGridView].
@@ -1152,4 +1183,3 @@ class ExtendedGridView extends BoxScrollView {
     );
   }
 }
-

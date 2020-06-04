@@ -8,10 +8,10 @@ import 'package:extended_list/extended_list.dart';
 ///
 
 @FFRoute(
-  name: "fluttercandies://chatlist",
-  routeName: "ChatList",
+  name: 'fluttercandies://chatlist',
+  routeName: 'ChatList',
   description:
-      "how to build layout(reverse=true) close to trailing when children are not full of viewport.",
+      'how to build layout(reverse=true) close to trailing when children are not full of viewport.',
 )
 class ChatListDemo extends StatefulWidget {
   @override
@@ -19,13 +19,13 @@ class ChatListDemo extends StatefulWidget {
 }
 
 class _ChatListDemoState extends State<ChatListDemo> {
-  final List<Color> colors = List<Color>();
-  final List<String> sessions = ["I'm session", "I'm session", "I'm session"];
+  final List<Color> colors = <Color>[];
+  final List<String> sessions = <String>['I\'m session', 'I\'m session', 'I\'m session'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("ChatList"),
+        title: const Text('ChatList'),
       ),
       body: ExtendedListView.builder(
         //itemExtent: 50.0,
@@ -59,11 +59,11 @@ class _ChatListDemoState extends State<ChatListDemo> {
         /// -----------------
         ///      leading
         ///
-        extendedListDelegate: ExtendedListDelegate(closeToTrailing: true),
+        extendedListDelegate: const ExtendedListDelegate(closeToTrailing: true),
         //gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        itemBuilder: (c, index) {
+        itemBuilder: (BuildContext c, int index) {
           final Color color = getRandomColor(index);
-          List<Widget> children = [
+          List<Widget> children = <Widget>[
             Expanded(
               flex: 5,
               child: Container(
@@ -73,7 +73,7 @@ class _ChatListDemoState extends State<ChatListDemo> {
                     color: getRandomColor(index)),
                 alignment: Alignment.center,
                 child: Text(
-                  "${sessions[index]} $index",
+                  '${sessions[index]} $index',
                   style: TextStyle(
                       color: color.computeLuminance() < 0.5
                           ? Colors.white
@@ -98,7 +98,7 @@ class _ChatListDemoState extends State<ChatListDemo> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            sessions.insert(0, "I'm session");
+            sessions.insert(0, 'I\'m session');
           });
         },
         child: Icon(Icons.add),
@@ -106,7 +106,7 @@ class _ChatListDemoState extends State<ChatListDemo> {
     );
   }
 
-  getRandomColor(int index) {
+  Color getRandomColor(int index) {
     if (index >= colors.length) {
       colors.add(Color.fromARGB(255, Random.secure().nextInt(255),
           Random.secure().nextInt(255), Random.secure().nextInt(255)));

@@ -52,7 +52,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
-    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
+    final bool closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -98,8 +98,27 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
     // it's possible for a child to get removed without notice.
     RenderBox leadingChildWithLayout, trailingChildWithLayout;
 
-    // Find the last child that is at or before the scrollOffset.
     RenderBox earliestUsefulChild = firstChild;
+
+    // A firstChild with null layout offset is likely a result of children
+    // reordering.
+    //
+    // We rely on firstChild to have accurate layout offset. In the case of null
+    // layout offset, we have to find the first child that has valid layout
+    // offset.
+    if (childScrollOffset(firstChild) == null) {
+      int leadingChildrenWithoutLayoutOffset = 0;
+      while (childScrollOffset(earliestUsefulChild) == null) {
+        earliestUsefulChild = childAfter(firstChild);
+        leadingChildrenWithoutLayoutOffset += 1;
+      }
+      // We should be able to destroy children with null layout offset safely,
+      // because they are likely outside of viewport
+      collectGarbage(leadingChildrenWithoutLayoutOffset, 0);
+      assert(firstChild != null);
+    }
+    // Find the last child that is at or before the scrollOffset.
+    earliestUsefulChild = firstChild;
     for (double earliestScrollOffset = childScrollOffset(earliestUsefulChild);
         earliestScrollOffset > scrollOffset;
         earliestScrollOffset = childScrollOffset(earliestUsefulChild)) {
@@ -109,7 +128,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
       if (earliestUsefulChild == null) {
         final SliverMultiBoxAdaptorParentData childParentData =
-            firstChild.parentData;
+            firstChild.parentData as SliverMultiBoxAdaptorParentData;
         childParentData.layoutOffset = 0.0;
 
         if (scrollOffset == 0.0) {
@@ -151,17 +170,19 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
           earliestUsefulChild = insertAndLayoutLeadingChild(childConstraints,
               parentUsesSize: true);
         }
-        geometry = SliverGeometry(
-          scrollOffsetCorrection: correction - earliestScrollOffset,
-        );
-        final SliverMultiBoxAdaptorParentData childParentData =
-            firstChild.parentData;
-        childParentData.layoutOffset = 0.0;
-        return;
+        earliestUsefulChild = firstChild;
+        if ((correction - earliestScrollOffset).abs() > precisionErrorTolerance) {
+          geometry = SliverGeometry(
+            scrollOffsetCorrection: correction - earliestScrollOffset,
+          );
+          final SliverMultiBoxAdaptorParentData childParentData = firstChild.parentData as SliverMultiBoxAdaptorParentData;
+          childParentData.layoutOffset = 0.0;
+          return;
+        }
       }
 
       final SliverMultiBoxAdaptorParentData childParentData =
-          earliestUsefulChild.parentData;
+          earliestUsefulChild.parentData as SliverMultiBoxAdaptorParentData;
       childParentData.layoutOffset = firstChildScrollOffset;
       assert(earliestUsefulChild == firstChild);
       leadingChildWithLayout = earliestUsefulChild;
@@ -198,9 +219,13 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
       // returns true if we advanced, false if we have no more children
       // This function is used in two different places below, to avoid code duplication.
       assert(child != null);
-      if (child == trailingChildWithLayout) inLayoutRange = false;
+      if (child == trailingChildWithLayout) {
+        inLayoutRange = false;
+      }
       child = childAfter(child);
-      if (child == null) inLayoutRange = false;
+      if (child == null) {
+        inLayoutRange = false;
+      }
       index += 1;
       if (!inLayoutRange) {
         if (child == null || indexOf(child) != index) {
@@ -221,7 +246,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
         trailingChildWithLayout = child;
       }
       assert(child != null);
-      final SliverMultiBoxAdaptorParentData childParentData = child.parentData;
+      final SliverMultiBoxAdaptorParentData childParentData = child.parentData as SliverMultiBoxAdaptorParentData;
       childParentData.layoutOffset = endScrollOffset;
       assert(childParentData.index == index);
       endScrollOffset = childScrollOffset(child) + paintExtentOf(child);
@@ -285,15 +310,15 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
     if (reachedEnd) {
       ///zmt
-      final layoutType = extendedListDelegate?.lastChildLayoutTypeBuilder
+      final LastChildLayoutType layoutType = extendedListDelegate?.lastChildLayoutTypeBuilder
               ?.call(indexOf(lastChild)) ??
           LastChildLayoutType.none;
-      final size = paintExtentOf(lastChild);
-      final trailingLayoutOffset = childScrollOffset(lastChild) + size;
+      final double size = paintExtentOf(lastChild);
+      final double trailingLayoutOffset = childScrollOffset(lastChild) + size;
       if (layoutType == LastChildLayoutType.foot &&
           trailingLayoutOffset < constraints.remainingPaintExtent) {
         final SliverMultiBoxAdaptorParentData childParentData =
-            lastChild.parentData;
+            lastChild.parentData as SliverMultiBoxAdaptorParentData;
         childParentData.layoutOffset = constraints.remainingPaintExtent - size;
         endScrollOffset = constraints.remainingPaintExtent;
       }
@@ -310,8 +335,8 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
           endScrollOffset - childScrollOffset(firstChild));
     }
 
-    final firstChildScrollOffset = childScrollOffset(firstChild);
-    var paintExtent = calculatePaintOffset(
+    final double firstChildScrollOffset = childScrollOffset(firstChild);
+    double paintExtent = calculatePaintOffset(
       constraints,
       from: firstChildScrollOffset,
       to: endScrollOffset,

@@ -3,15 +3,16 @@ import 'package:example/common/widget_builder.dart';
 import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:flutter/material.dart';
 import 'package:extended_list/extended_list.dart';
+
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
 
 @FFRoute(
-  name: "fluttercandies://gridview",
-  routeName: "GridView",
+  name: 'fluttercandies://gridview',
+  routeName: 'GridView',
   description:
-      "show no more/loadmore at trailing when children are not full of viewport.",
+      'show no more/loadmore at trailing when children are not full of viewport.',
 )
 class GridViewDemo extends StatefulWidget {
   @override
@@ -19,7 +20,7 @@ class GridViewDemo extends StatefulWidget {
 }
 
 class _GridViewDemoState extends State<GridViewDemo> {
-  final List<Color> colors = List<Color>();
+  final List<Color> colors = <Color>[];
   int length = 5;
   bool get hasMore => length < 100;
   @override
@@ -28,10 +29,10 @@ class _GridViewDemoState extends State<GridViewDemo> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text("GridView"),
+        title: const Text('GridView'),
       ),
       body: ExtendedGridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 4,
           crossAxisSpacing: 5.0,
           mainAxisSpacing: 5.0,
@@ -46,21 +47,21 @@ class _GridViewDemoState extends State<GridViewDemo> {
           /// show no more item at trailing when children are not full of viewport
           /// if children is full of viewport, it's the same as fullCrossAxisExtend
           //  LastChildLayoutType.foot,
-          lastChildLayoutTypeBuilder: (index) => index == length
+          lastChildLayoutTypeBuilder: (int index) => index == length
               ? LastChildLayoutType.foot
               : LastChildLayoutType.none,
           collectGarbage: (List<int> garbages) {
-            print("collect garbage : $garbages");
+            print('collect garbage : $garbages');
           },
           viewportBuilder: (int firstIndex, int lastIndex) {
-            print("viewport : [$firstIndex,$lastIndex]");
+            print('viewport : [$firstIndex,$lastIndex]');
           },
         ),
-        itemBuilder: (c, index) {
+        itemBuilder: (BuildContext c, int index) {
           if (index == length) {
             if (hasMore) {
               //delay 2 seconds,see loadmore clearly
-              Future.delayed(Duration(seconds: 2), () {
+              Future<void>.delayed(const Duration(seconds: 2), () {
                 setState(() {
                   length += 30;
                 });
@@ -76,7 +77,7 @@ class _GridViewDemoState extends State<GridViewDemo> {
                 color: getRandomColor(index)),
             alignment: Alignment.center,
             child: Text(
-              "$index",
+              '$index',
               style: TextStyle(
                   color: color.computeLuminance() < 0.5
                       ? Colors.white
@@ -89,7 +90,7 @@ class _GridViewDemoState extends State<GridViewDemo> {
     );
   }
 
-  getRandomColor(int index) {
+  Color getRandomColor(int index) {
     if (index >= colors.length) {
       colors.add(Color.fromARGB(255, Random.secure().nextInt(255),
           Random.secure().nextInt(255), Random.secure().nextInt(255)));
