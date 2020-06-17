@@ -8,9 +8,9 @@ Language: [English](README.md) | 中文简体
 
 [Web demo for ExtendedList](https://fluttercandies.github.io/extended_list/)
 
-- [extended_list](#extendedlist)
-  - [使用](#%e4%bd%bf%e7%94%a8)
-  - [列表元素回收](#%e5%88%97%e8%a1%a8%e5%85%83%e7%b4%a0%e5%9b%9e%e6%94%b6)
+- [extended_list](#extended_list)
+  - [使用](#使用)
+  - [列表元素回收](#列表元素回收)
   - [ViewportBuilder](#viewportbuilder)
   - [LastChildLayoutTypeBuilder](#lastchildlayouttypebuilder)
   - [CloseToTrailing](#closetotrailing)
@@ -73,11 +73,11 @@ dependencies:
 
         /// 将最后一个元素绘制在最大主轴Item之后，并且使用横轴大小最为layout size
         /// 主要使用在[ExtendedGridView] and [WaterfallFlow]中，最后一个元素作为loadmore/no more元素的时候。
-        fullCrossAxisExtend,
+        fullCrossAxisExtent,
 
         /// 将最后一个child绘制在trailing of viewport，并且使用横轴大小最为layout size
         /// 这种常用于最后一个元素作为loadmore/no more元素，并且列表元素没有充满整个viewport的时候
-        /// 如果列表元素充满viewport，那么效果跟fullCrossAxisExtend一样
+        /// 如果列表元素充满viewport，那么效果跟fullCrossAxisExtent一样
         foot,
         }
 
