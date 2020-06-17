@@ -8,7 +8,7 @@ extended list(ListView/GridView) support track collect garbage of children/viewp
 
 [Web demo for ExtendedList](https://fluttercandies.github.io/extended_list/)
 
-- [extended_list](#extendedlist)
+- [extended_list](#extended_list)
   - [Use](#use)
   - [CollectGarbage](#collectgarbage)
   - [ViewportBuilder](#viewportbuilder)
@@ -18,19 +18,19 @@ extended list(ListView/GridView) support track collect garbage of children/viewp
 ## Use
 
 * add library to your pubspec.yaml
-  
+
 ```yaml
 
 dependencies:
   extended_list: any
 
-```  
+```
 * import library in dart file
-  
+
 ```dart
 
   import 'package:extended_list/extended_list.dart';
-  
+
 ```
 
 ## CollectGarbage
@@ -72,14 +72,14 @@ build lastChild as special child in the case that it is loadmore/no more item.
         /// as default child
         none,
 
-        /// follow max child trailing layout offset and layout with full cross axis extend
+        /// follow max child trailing layout offset and layout with full cross axis extent
         /// last child as loadmore item/no more item in [ExtendedGridView] and [WaterfallFlow]
         /// with full cross axis extend
-        fullCrossAxisExtend,
+        fullCrossAxisExtent,
 
         /// as foot at trailing and layout with full cross axis extend
         /// show no more item at trailing when children are not full of viewport
-        /// if children is full of viewport, it's the same as fullCrossAxisExtend
+        /// if children is full of viewport, it's the same as fullCrossAxisExtent
         foot,
         }
 
@@ -107,7 +107,7 @@ but it's not right when items are not full of viewport.
 |     item0     |
 -----------------
      leading
-```     
+```
 
 to solve it, you could set closeToTrailing to true, layout is as following.
 support [ExtendedGridView],[ExtendedList],[WaterfallFlow].
@@ -123,7 +123,7 @@ and it also works when reverse is flase, layout will close to trailing.
 |               |
 -----------------
      leading
-```     
+```
 
 ```dart
       ExtendedListView.builder(

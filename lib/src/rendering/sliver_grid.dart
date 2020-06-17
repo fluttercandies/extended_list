@@ -66,7 +66,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
-    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;    
+    final bool closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -206,7 +206,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
             LastChildLayoutType.none;
 
     switch (lastChildLayoutType) {
-      case LastChildLayoutType.fullCrossAxisExtend:
+      case LastChildLayoutType.fullCrossAxisExtent:
       case LastChildLayoutType.foot:
         data.crossAxisOffset = 0.0;
         //layout as normal constraints
@@ -217,7 +217,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
             : layout
                 .getGeometryForChildIndex(data.index - 1)
                 .trailingScrollOffset;
-        if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtend ||
+        if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtent ||
             trailingScrollOffset + size >= constraints.remainingPaintExtent) {
           data.layoutOffset = trailingScrollOffset;
         } else {
