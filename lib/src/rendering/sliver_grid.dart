@@ -3,7 +3,6 @@ import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
 
-
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
@@ -60,7 +59,8 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
 
   @override
   double childCrossAxisPosition(RenderBox child) {
-    final SliverGridParentData childParentData = child.parentData as SliverGridParentData;
+    final SliverGridParentData childParentData =
+        child.parentData as SliverGridParentData;
     return childParentData.crossAxisOffset;
   }
 
@@ -137,7 +137,8 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
       final RenderBox child = insertAndLayoutLeadingChild(
         gridGeometry.getBoxConstraints(constraints),
       );
-      final SliverGridParentData childParentData = child.parentData as SliverGridParentData;
+      final SliverGridParentData childParentData =
+          child.parentData as SliverGridParentData;
       childParentData.layoutOffset = gridGeometry.scrollOffset;
       childParentData.crossAxisOffset = gridGeometry.crossAxisOffset;
       assert(childParentData.index == index);
@@ -148,7 +149,8 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
 
     if (trailingChildWithLayout == null) {
       firstChild.layout(firstChildGridGeometry.getBoxConstraints(constraints));
-      final SliverGridParentData childParentData = firstChild.parentData as SliverGridParentData;
+      final SliverGridParentData childParentData =
+          firstChild.parentData as SliverGridParentData;
       childParentData.layoutOffset = firstChildGridGeometry.scrollOffset;
       childParentData.crossAxisOffset = firstChildGridGeometry.crossAxisOffset;
       trailingChildWithLayout = firstChild;
@@ -174,7 +176,8 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
       }
       trailingChildWithLayout = child;
       assert(child != null);
-      final SliverGridParentData childParentData = child.parentData as SliverGridParentData;
+      final SliverGridParentData childParentData =
+          child.parentData as SliverGridParentData;
       childParentData.layoutOffset = gridGeometry.scrollOffset;
       childParentData.crossAxisOffset = gridGeometry.crossAxisOffset;
       assert(childParentData.index == index);
@@ -197,15 +200,16 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
       trailingScrollOffset: trailingScrollOffset,
     );
 
-    final double result = handleCloseToTrailingEnd(
-        closeToTrailing, trailingScrollOffset);
+    final double result =
+        handleCloseToTrailingEnd(closeToTrailing, trailingScrollOffset);
     if (result != trailingScrollOffset) {
       trailingScrollOffset = result;
       estimatedTotalExtent = result;
     }
 
     //zmt
-    final SliverGridParentData data = lastChild.parentData as SliverGridParentData;
+    final SliverGridParentData data =
+        lastChild.parentData as SliverGridParentData;
     final LastChildLayoutType lastChildLayoutType =
         extendedListDelegate?.lastChildLayoutTypeBuilder?.call(data.index) ??
             LastChildLayoutType.none;
@@ -247,23 +251,38 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
     );
 
     ///zmt
-    callViewportBuilder(
-        viewportBuilder: extendedListDelegate?.viewportBuilder,
-        getPaintExtend: (RenderBox child) {
-          final SliverGridParentData childParentData = child.parentData as SliverGridParentData;
-          final LastChildLayoutType lastChildLayoutType = extendedListDelegate
-                  .lastChildLayoutTypeBuilder
-                  ?.call(childParentData.index) ??
-              LastChildLayoutType.none;
-          if (lastChildLayoutType != LastChildLayoutType.none) {
-            return paintExtentOf(child);
-          }
+    ///
+    if (extendedListDelegate?.viewportBuilder != null) {
+      double mainAxisSpacing = 0.0;
+      if (_gridDelegate is SliverGridDelegateWithFixedCrossAxisCount) {
+        mainAxisSpacing =
+            (_gridDelegate as SliverGridDelegateWithFixedCrossAxisCount)
+                .mainAxisSpacing;
+      } else if (_gridDelegate is SliverGridDelegateWithMaxCrossAxisExtent) {
+        mainAxisSpacing =
+            (_gridDelegate as SliverGridDelegateWithMaxCrossAxisExtent)
+                .mainAxisSpacing;
+      }
+      callViewportBuilder(
+          viewportBuilder: extendedListDelegate.viewportBuilder,
+          mainAxisSpacing: mainAxisSpacing,
+          getPaintExtend: (RenderBox child) {
+            final SliverGridParentData childParentData =
+                child.parentData as SliverGridParentData;
+            final LastChildLayoutType lastChildLayoutType = extendedListDelegate
+                    .lastChildLayoutTypeBuilder
+                    ?.call(childParentData.index) ??
+                LastChildLayoutType.none;
+            if (lastChildLayoutType != LastChildLayoutType.none) {
+              return paintExtentOf(child);
+            }
 
-          final SliverGridGeometry gridGeometry =
-              layout.getGeometryForChildIndex(childParentData.index);
-          return gridGeometry.trailingScrollOffset -
-              childParentData.layoutOffset;
-        });
+            final SliverGridGeometry gridGeometry =
+                layout.getGeometryForChildIndex(childParentData.index);
+            return gridGeometry.trailingScrollOffset -
+                childParentData.layoutOffset;
+          });
+    }
 
     geometry = SliverGeometry(
       scrollExtent: estimatedTotalExtent,

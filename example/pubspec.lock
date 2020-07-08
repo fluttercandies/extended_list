@@ -102,9 +102,9 @@ packages:
   extended_list_library:
     dependency: transitive
     description:
-      path: "D:\\Flutter\\github\\FlutterCandies\\extended_list_library"
-      relative: false
-    source: path
+      name: extended_list_library
+      url: "https://pub.flutter-io.cn"
+    source: hosted
     version: "1.0.0"
   ff_annotation_route:
     dependency: "direct dev"
