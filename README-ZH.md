@@ -126,3 +126,6 @@ dependencies:
         reverse: true,
         extendedListDelegate: ExtendedListDelegate(closeToTrailing: true),
 ```
+## ☕️Buy me a coffee
+
+![img](http://zmtzawqlp.gitee.io/my_images/images/qrcode.png)
