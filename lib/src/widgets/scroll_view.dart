@@ -319,7 +319,7 @@ class ExtendedListView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   })  : childrenDelegate = SliverChildListDelegate(
           children,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -388,8 +388,10 @@ class ExtendedListView extends BoxScrollView {
     double cacheExtent,
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    this.extendedListDelegate,
-  })  : childrenDelegate = SliverChildBuilderDelegate(
+    @required this.extendedListDelegate,
+  })  : assert(itemCount == null || itemCount >= 0),
+        assert(semanticChildCount == null || semanticChildCount <= itemCount),
+        childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
           childCount: itemCount,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -473,7 +475,8 @@ class ExtendedListView extends BoxScrollView {
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
     double cacheExtent,
-    this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    @required this.extendedListDelegate,
   })  : assert(itemBuilder != null),
         assert(separatorBuilder != null),
         assert(itemCount != null && itemCount >= 0),
@@ -611,7 +614,8 @@ class ExtendedListView extends BoxScrollView {
     @required this.childrenDelegate,
     double cacheExtent,
     int semanticChildCount,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   })  : assert(childrenDelegate != null),
         super(
           key: key,
@@ -890,7 +894,8 @@ class ExtendedGridView extends BoxScrollView {
     double cacheExtent,
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildListDelegate(
           children,
@@ -947,7 +952,8 @@ class ExtendedGridView extends BoxScrollView {
     bool addSemanticIndexes = true,
     double cacheExtent,
     int semanticChildCount,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
+    DragStartBehavior dragStartBehavior = DragStartBehavior.start,
   })  : assert(gridDelegate != null),
         childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
@@ -989,8 +995,8 @@ class ExtendedGridView extends BoxScrollView {
     @required this.childrenDelegate,
     double cacheExtent,
     int semanticChildCount,
+    @required this.extendedListDelegate,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    this.extendedListDelegate,
   })  : assert(gridDelegate != null),
         assert(childrenDelegate != null),
         super(
@@ -1041,7 +1047,7 @@ class ExtendedGridView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -1101,7 +1107,7 @@ class ExtendedGridView extends BoxScrollView {
     List<Widget> children = const <Widget>[],
     int semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,

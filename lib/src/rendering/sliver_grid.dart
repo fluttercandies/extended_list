@@ -28,9 +28,11 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
   ExtendedRenderSliverGrid({
     @required RenderSliverBoxChildManager childManager,
     @required SliverGridDelegate gridDelegate,
-    this.extendedListDelegate,
+    @required ExtendedListDelegate extendedListDelegate,
   })  : assert(gridDelegate != null),
+        assert(extendedListDelegate != null),
         _gridDelegate = gridDelegate,
+        _extendedListDelegate = extendedListDelegate,
         super(childManager: childManager);
 
   @override
@@ -50,9 +52,21 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
     _gridDelegate = value;
   }
 
+  ExtendedListDelegate _extendedListDelegate;
+
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   @override
-  ExtendedListDelegate extendedListDelegate;
+  ExtendedListDelegate get extendedListDelegate => _extendedListDelegate;
+  set extendedListDelegate(ExtendedListDelegate value) {
+    assert(value != null);
+    if (_extendedListDelegate == value) {
+      return;
+    }
+    if (_extendedListDelegate.closeToTrailing != value.closeToTrailing) {
+      markNeedsLayout();
+    }
+    _extendedListDelegate = value;
+  }
 
   @override
   double childCrossAxisPosition(RenderBox child) {
