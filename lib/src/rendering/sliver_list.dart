@@ -39,12 +39,26 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
   /// The [childManager] argument must not be null.
   ExtendedRenderSliverList({
     @required RenderSliverBoxChildManager childManager,
-    this.extendedListDelegate,
-  }) : super(childManager: childManager);
+    @required ExtendedListDelegate extendedListDelegate,
+  })  : assert(extendedListDelegate != null),
+        _extendedListDelegate = extendedListDelegate,
+        super(childManager: childManager);
+
+  ExtendedListDelegate _extendedListDelegate;
 
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
   @override
-  ExtendedListDelegate extendedListDelegate;
+  ExtendedListDelegate get extendedListDelegate => _extendedListDelegate;
+  set extendedListDelegate(ExtendedListDelegate value) {
+    assert(value != null);
+    if (_extendedListDelegate == value) {
+      return;
+    }
+    if (_extendedListDelegate.closeToTrailing != value.closeToTrailing) {
+      markNeedsLayout();
+    }
+    _extendedListDelegate = value;
+  }
 
   @override
   void performLayout() {

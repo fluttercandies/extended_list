@@ -130,7 +130,3 @@ and it also works when reverse is flase, layout will close to trailing.
         reverse: true,
         extendedListDelegate: ExtendedListDelegate(closeToTrailing: true),
 ```
-
-## ☕️Buy me a coffee
-
-![img](http://zmtzawqlp.gitee.io/my_images/images/qrcode.png)

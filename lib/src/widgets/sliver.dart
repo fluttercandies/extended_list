@@ -42,7 +42,7 @@ class ExtendedSliverList extends SliverMultiBoxAdaptorWidget {
   const ExtendedSliverList({
     Key key,
     @required SliverChildDelegate delegate,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
@@ -116,7 +116,7 @@ class ExtendedSliverFixedExtentList extends SliverMultiBoxAdaptorWidget {
     Key key,
     @required SliverChildDelegate delegate,
     @required this.itemExtent,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// The extent the children are forced to have in the main axis.
@@ -198,7 +198,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
     Key key,
     @required SliverChildDelegate delegate,
     @required this.gridDelegate,
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// Creates a sliver that places multiple box children in a two dimensional
@@ -217,7 +217,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -242,7 +242,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
-    this.extendedListDelegate,
+    @required this.extendedListDelegate,
   })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,

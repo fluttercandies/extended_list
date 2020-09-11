@@ -1,6 +1,10 @@
-## [2.0.1]
+## [2.0.2]
 
 * fix closeToTrailing issue. extended_list#6
+
+## [2.0.1]
+
+* fix viewport wrong index for SliverGrid #4.
 
 ## [2.0.0]
 
