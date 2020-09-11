@@ -20,7 +20,11 @@ class ChatListDemo extends StatefulWidget {
 
 class _ChatListDemoState extends State<ChatListDemo> {
   final List<Color> colors = <Color>[];
-  final List<String> sessions = <String>['I\'m session', 'I\'m session', 'I\'m session'];
+  final List<String> sessions = <String>[
+    'I\'m session',
+    'I\'m session',
+    'I\'m session'
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +105,7 @@ class _ChatListDemoState extends State<ChatListDemo> {
             sessions.insert(0, 'I\'m session');
           });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

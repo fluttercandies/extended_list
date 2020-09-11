@@ -525,7 +525,7 @@ class ExtendedListView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: itemCount,
-          dragStartBehavior:dragStartBehavior,
+          dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -640,7 +640,7 @@ class ExtendedListView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount,
-          dragStartBehavior:dragStartBehavior,
+          dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -930,7 +930,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
-          dragStartBehavior:dragStartBehavior,
+          dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 
@@ -993,7 +993,7 @@ class ExtendedGridView extends BoxScrollView {
           padding: padding,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? itemCount,
-          dragStartBehavior:dragStartBehavior,
+          dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
         );
 

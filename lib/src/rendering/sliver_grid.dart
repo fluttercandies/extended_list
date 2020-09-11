@@ -55,6 +55,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
   }
 
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  @override
   ExtendedListDelegate extendedListDelegate;
 
   @override
@@ -71,7 +72,6 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
-    final bool closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -200,13 +200,6 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
       trailingScrollOffset: trailingScrollOffset,
     );
 
-    final double result =
-        handleCloseToTrailingEnd(closeToTrailing, trailingScrollOffset);
-    if (result != trailingScrollOffset) {
-      trailingScrollOffset = result;
-      estimatedTotalExtent = result;
-    }
-
     //zmt
     final SliverGridParentData data =
         lastChild.parentData as SliverGridParentData;
@@ -227,7 +220,8 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
                 .getGeometryForChildIndex(data.index - 1)
                 .trailingScrollOffset;
         if (lastChildLayoutType == LastChildLayoutType.fullCrossAxisExtent ||
-            trailingScrollOffset + size >= constraints.remainingPaintExtent) {
+            trailingScrollOffset + size >= constraints.remainingPaintExtent ||
+            closeToTrailing) {
           data.layoutOffset = trailingScrollOffset;
         } else {
           data.layoutOffset = constraints.remainingPaintExtent - size;
@@ -237,6 +231,13 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
         break;
       case LastChildLayoutType.none:
         break;
+    }
+
+    final double result =
+        handleCloseToTrailingEnd(closeToTrailing, trailingScrollOffset);
+    if (result != trailingScrollOffset) {
+      trailingScrollOffset = result;
+      estimatedTotalExtent = result;
     }
 
     final double paintExtent = calculatePaintOffset(

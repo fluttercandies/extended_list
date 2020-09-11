@@ -43,6 +43,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
   }) : super(childManager: childManager);
 
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  @override
   ExtendedListDelegate extendedListDelegate;
 
   @override
@@ -52,7 +53,6 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
-    final bool closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -171,11 +171,13 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
               parentUsesSize: true);
         }
         earliestUsefulChild = firstChild;
-        if ((correction - earliestScrollOffset).abs() > precisionErrorTolerance) {
+        if ((correction - earliestScrollOffset).abs() >
+            precisionErrorTolerance) {
           geometry = SliverGeometry(
             scrollOffsetCorrection: correction - earliestScrollOffset,
           );
-          final SliverMultiBoxAdaptorParentData childParentData = firstChild.parentData as SliverMultiBoxAdaptorParentData;
+          final SliverMultiBoxAdaptorParentData childParentData =
+              firstChild.parentData as SliverMultiBoxAdaptorParentData;
           childParentData.layoutOffset = 0.0;
           return;
         }
@@ -246,7 +248,8 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
         trailingChildWithLayout = child;
       }
       assert(child != null);
-      final SliverMultiBoxAdaptorParentData childParentData = child.parentData as SliverMultiBoxAdaptorParentData;
+      final SliverMultiBoxAdaptorParentData childParentData =
+          child.parentData as SliverMultiBoxAdaptorParentData;
       childParentData.layoutOffset = endScrollOffset;
       assert(childParentData.index == index);
       endScrollOffset = childScrollOffset(child) + paintExtentOf(child);
@@ -310,7 +313,8 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
 
     if (reachedEnd) {
       ///zmt
-      final LastChildLayoutType layoutType = extendedListDelegate?.lastChildLayoutTypeBuilder
+      final LastChildLayoutType layoutType = extendedListDelegate
+              ?.lastChildLayoutTypeBuilder
               ?.call(indexOf(lastChild)) ??
           LastChildLayoutType.none;
       final double size = paintExtentOf(lastChild);
@@ -350,12 +354,12 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
         constraints.scrollOffset + constraints.remainingPaintExtent;
 
     callViewportBuilder(viewportBuilder: extendedListDelegate?.viewportBuilder);
-    //fix hittest 
-    if (closeToTrailing &&
-        indexOf(firstChild) == 0 &&
-        firstChildScrollOffset != 0.0) {
-      paintExtent += firstChildScrollOffset;
+
+    //fix hittest
+    if (closeToTrailing) {
+      paintExtent += closeToTrailingDistance;
     }
+
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,
       paintExtent: paintExtent,
