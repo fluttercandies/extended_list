@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math' as math;
+
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
@@ -1152,4 +1153,3 @@ class ExtendedGridView extends BoxScrollView {
     );
   }
 }
-

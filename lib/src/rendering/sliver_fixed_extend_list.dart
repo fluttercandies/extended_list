@@ -1,7 +1,6 @@
 import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:math' as math;
 
 ///
 ///  create by zmtzawqlp on 2019/11/23
@@ -43,6 +42,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
   }) : super(childManager: childManager);
 
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
+  @override
   ExtendedListDelegate extendedListDelegate;
 
   /// The main-axis extent of each item.
@@ -177,7 +177,6 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
 
     final double scrollOffset =
         constraints.scrollOffset + constraints.cacheOrigin;
-    final closeToTrailing = extendedListDelegate?.closeToTrailing ?? false;
     assert(scrollOffset >= 0.0);
     final double remainingExtent = constraints.remainingCacheExtent;
     assert(remainingExtent >= 0.0);
@@ -257,7 +256,8 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
         geometry = SliverGeometry(scrollOffsetCorrection: index * itemExtent);
         return;
       }
-      final SliverMultiBoxAdaptorParentData childParentData = child.parentData;
+      final SliverMultiBoxAdaptorParentData childParentData =
+          child.parentData as SliverMultiBoxAdaptorParentData;
       childParentData.layoutOffset = indexToLayoutOffset(itemExtent, index);
       assert(childParentData.index == index);
       trailingChildWithLayout ??= child;
@@ -290,7 +290,8 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
       }
       trailingChildWithLayout = child;
       assert(child != null);
-      final SliverMultiBoxAdaptorParentData childParentData = child.parentData;
+      final SliverMultiBoxAdaptorParentData childParentData =
+          child.parentData as SliverMultiBoxAdaptorParentData;
       assert(childParentData.index == index);
       childParentData.layoutOffset =
           indexToLayoutOffset(itemExtent, childParentData.index);
@@ -311,7 +312,8 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
     }
 
     ///zmt
-    final lastChildIsFoot = (extendedListDelegate?.lastChildLayoutTypeBuilder
+    final bool lastChildIsFoot = (extendedListDelegate
+                ?.lastChildLayoutTypeBuilder
                 ?.call(indexOf(lastChild)) ??
             LastChildLayoutType.none) ==
         LastChildLayoutType.foot;

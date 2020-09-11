@@ -4,6 +4,7 @@ import 'package:extended_list/src/rendering/sliver_list.dart';
 import 'package:extended_list_library/extended_list_library.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
@@ -49,7 +50,8 @@ class ExtendedSliverList extends SliverMultiBoxAdaptorWidget {
 
   @override
   ExtendedRenderSliverList createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element =
+        context as SliverMultiBoxAdaptorElement;
     return ExtendedRenderSliverList(
       childManager: element,
       extendedListDelegate: extendedListDelegate,
@@ -124,7 +126,8 @@ class ExtendedSliverFixedExtentList extends SliverMultiBoxAdaptorWidget {
   final ExtendedListDelegate extendedListDelegate;
   @override
   ExtendedRenderSliverFixedExtentList createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element =
+        context as SliverMultiBoxAdaptorElement;
     return ExtendedRenderSliverFixedExtentList(
       childManager: element,
       itemExtent: itemExtent,
@@ -256,7 +259,8 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
 
   @override
   ExtendedRenderSliverGrid createRenderObject(BuildContext context) {
-    final SliverMultiBoxAdaptorElement element = context;
+    final SliverMultiBoxAdaptorElement element =
+        context as SliverMultiBoxAdaptorElement;
     return ExtendedRenderSliverGrid(
       childManager: element,
       gridDelegate: gridDelegate,
