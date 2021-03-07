@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:example/common/widget_builder.dart';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+
 import 'package:flutter/material.dart';
 import 'package:extended_list/extended_list.dart';
 

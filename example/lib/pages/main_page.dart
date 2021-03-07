@@ -1,9 +1,10 @@
+import 'package:ff_annotation_route_library/ff_annotation_route_library.dart';
+
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
 
 import 'package:flutter/material.dart';
-import 'package:ff_annotation_route/ff_annotation_route.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../example_route.dart';
@@ -19,9 +20,9 @@ class MainPage extends StatelessWidget {
     routeNames.addAll(example_routes.routeNames);
     routeNames.remove('fluttercandies://mainpage');
     routes.addAll(routeNames
-        .map<RouteResult>((String name) => getRouteResult(name: name)));
+        .map<FFRouteSettings>((String name) => getRouteSettings(name: name)));
   }
-  final List<RouteResult> routes = <RouteResult>[];
+  final List<FFRouteSettings> routes = <FFRouteSettings>[];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +34,7 @@ class MainPage extends StatelessWidget {
           ButtonTheme(
             minWidth: 0.0,
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: FlatButton(
+            child: TextButton(
               child: const Text(
                 'Github',
                 style: TextStyle(
@@ -50,7 +51,7 @@ class MainPage extends StatelessWidget {
           ButtonTheme(
             padding: const EdgeInsets.only(right: 10.0),
             minWidth: 0.0,
-            child: FlatButton(
+            child: TextButton(
               child:
                   Image.network('https://pub.idqqimg.com/wpa/images/group.png'),
               onPressed: () {
@@ -62,7 +63,7 @@ class MainPage extends StatelessWidget {
       ),
       body: ListView.builder(
         itemBuilder: (BuildContext c, int index) {
-          final RouteResult page = routes[index];
+          final FFRouteSettings page = routes[index];
           return Container(
               margin: const EdgeInsets.all(20.0),
               child: GestureDetector(
@@ -71,17 +72,17 @@ class MainPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      (index + 1).toString() + '.' + page.routeName,
+                      (index + 1).toString() + '.' + page.routeName!,
                       //style: TextStyle(inherit: false),
                     ),
                     Text(
-                      page.description,
+                      page.description!,
                       style: const TextStyle(color: Colors.grey),
                     )
                   ],
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, routes[index].name);
+                  Navigator.pushNamed(context, routes[index].name!);
                 },
               ));
         },

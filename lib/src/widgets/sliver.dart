@@ -40,9 +40,9 @@ import 'package:flutter/widgets.dart';
 class ExtendedSliverList extends SliverMultiBoxAdaptorWidget {
   /// Creates a sliver that places box children in a linear array.
   const ExtendedSliverList({
-    Key key,
-    @required SliverChildDelegate delegate,
-    @required this.extendedListDelegate,
+    Key? key,
+    required SliverChildDelegate delegate,
+    required this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// A delegate that provides extensions within the [ExtendedGridView/ExtendedList/WaterfallFlow].
@@ -113,10 +113,10 @@ class ExtendedSliverFixedExtentList extends SliverMultiBoxAdaptorWidget {
   /// Creates a sliver that places box children with the same main axis extent
   /// in a linear array.
   const ExtendedSliverFixedExtentList({
-    Key key,
-    @required SliverChildDelegate delegate,
-    @required this.itemExtent,
-    @required this.extendedListDelegate,
+    Key? key,
+    required SliverChildDelegate delegate,
+    required this.itemExtent,
+    required this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// The extent the children are forced to have in the main axis.
@@ -195,10 +195,10 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
   /// Creates a sliver that places multiple box children in a two dimensional
   /// arrangement.
   const ExtendedSliverGrid({
-    Key key,
-    @required SliverChildDelegate delegate,
-    @required this.gridDelegate,
-    @required this.extendedListDelegate,
+    Key? key,
+    required SliverChildDelegate delegate,
+    required this.gridDelegate,
+    required this.extendedListDelegate,
   }) : super(key: key, delegate: delegate);
 
   /// Creates a sliver that places multiple box children in a two dimensional
@@ -211,14 +211,14 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
   ///
   ///  * [new GridView.count], the equivalent constructor for [GridView] widgets.
   ExtendedSliverGrid.count({
-    Key key,
-    @required int crossAxisCount,
+    Key? key,
+    required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
-    @required this.extendedListDelegate,
-  })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+    required this.extendedListDelegate,
+  })   : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
@@ -236,14 +236,14 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
   ///
   ///  * [new GridView.extent], the equivalent constructor for [GridView] widgets.
   ExtendedSliverGrid.extent({
-    Key key,
-    @required double maxCrossAxisExtent,
+    Key? key,
+    required double maxCrossAxisExtent,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
-    @required this.extendedListDelegate,
-  })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+    required this.extendedListDelegate,
+  })   : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
@@ -277,7 +277,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
 
   @override
   double estimateMaxScrollOffset(
-    SliverConstraints constraints,
+    SliverConstraints? constraints,
     int firstIndex,
     int lastIndex,
     double leadingScrollOffset,
@@ -291,7 +291,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
           trailingScrollOffset,
         ) ??
         gridDelegate
-            .getLayout(constraints)
-            .computeMaxScrollOffset(delegate.estimatedChildCount);
+            .getLayout(constraints!)
+            .computeMaxScrollOffset(delegate.estimatedChildCount!);
   }
 }

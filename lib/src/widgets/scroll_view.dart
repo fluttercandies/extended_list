@@ -303,26 +303,28 @@ class ExtendedListView extends BoxScrollView {
   /// [SliverChildListDelegate.addSemanticIndexes] property. None
   /// may be null.
   ExtendedListView({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry? padding,
     this.itemExtent,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
+    double? cacheExtent,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-    @required this.extendedListDelegate,
-  })  : childrenDelegate = SliverChildListDelegate(
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
+    required this.extendedListDelegate,
+  })   : childrenDelegate = SliverChildListDelegate(
           children,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
           addRepaintBoundaries: addRepaintBoundaries,
@@ -341,6 +343,8 @@ class ExtendedListView extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, linear array of widgets that are created on demand.
@@ -374,28 +378,30 @@ class ExtendedListView extends BoxScrollView {
   /// you are planning to change child order at a later time, consider using
   /// [ExtendedListView] or [ExtendedListView.custom].
   ExtendedListView.builder({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry? padding,
     this.itemExtent,
-    @required IndexedWidgetBuilder itemBuilder,
-    int itemCount,
+    required IndexedWidgetBuilder itemBuilder,
+    int? itemCount,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
-    int semanticChildCount,
+    double? cacheExtent,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    @required this.extendedListDelegate,
+    required this.extendedListDelegate,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : assert(itemCount == null || itemCount >= 0),
-        assert(semanticChildCount == null || semanticChildCount <= itemCount),
+        assert(semanticChildCount == null || semanticChildCount <= itemCount!),
         childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
           childCount: itemCount,
@@ -416,6 +422,8 @@ class ExtendedListView extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a fixed-length scrollable linear array of list "items" separated
@@ -466,28 +474,28 @@ class ExtendedListView extends BoxScrollView {
   /// [SliverChildBuilderDelegate.addSemanticIndexes] property. None may be
   /// null.
   ExtendedListView.separated({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required IndexedWidgetBuilder itemBuilder,
-    @required IndexedWidgetBuilder separatorBuilder,
-    @required int itemCount,
+    EdgeInsetsGeometry? padding,
+    required IndexedWidgetBuilder itemBuilder,
+    required IndexedWidgetBuilder separatorBuilder,
+    required int itemCount,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
+    double? cacheExtent,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-    @required this.extendedListDelegate,
-  })  : assert(itemBuilder != null),
-        assert(separatorBuilder != null),
-        assert(itemCount != null && itemCount >= 0),
+    required this.extendedListDelegate,
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
+  })  : assert(itemCount >= 0),
         itemExtent = null,
         childrenDelegate = SliverChildBuilderDelegate(
           (BuildContext context, int index) {
@@ -497,12 +505,6 @@ class ExtendedListView extends BoxScrollView {
               widget = itemBuilder(context, itemIndex);
             } else {
               widget = separatorBuilder(context, itemIndex);
-              assert(() {
-                if (widget == null) {
-                  throw FlutterError('separatorBuilder cannot return null.');
-                }
-                return true;
-              }());
             }
             return widget;
           },
@@ -527,6 +529,8 @@ class ExtendedListView extends BoxScrollView {
           semanticChildCount: itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, linear array of widgets with a custom child model.
@@ -568,7 +572,7 @@ class ExtendedListView extends BoxScrollView {
   ///             },
   ///             childCount: items.length,
   ///             findChildIndexCallback: (Key key) {
-  ///               final ValueKey valueKey = key;
+  ///               final ValueKey valueKey = key as ValueKey;
   ///               final String data = valueKey.value;
   ///               return items.indexOf(data);
   ///             }
@@ -579,7 +583,7 @@ class ExtendedListView extends BoxScrollView {
   ///         child: Row(
   ///           mainAxisAlignment: MainAxisAlignment.center,
   ///           children: <Widget>[
-  ///             FlatButton(
+  ///             TextButton(
   ///               onPressed: () => _reverse(),
   ///               child: Text('Reverse items'),
   ///             ),
@@ -612,24 +616,25 @@ class ExtendedListView extends BoxScrollView {
   /// ```
   /// {@end-tool}
   const ExtendedListView.custom({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
+    EdgeInsetsGeometry? padding,
     this.itemExtent,
-    @required this.childrenDelegate,
-    double cacheExtent,
-    int semanticChildCount,
-    @required this.extendedListDelegate,
+    required this.childrenDelegate,
+    double? cacheExtent,
+    int? semanticChildCount,
+    required this.extendedListDelegate,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(childrenDelegate != null),
-        super(
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
+  }) : super(
           key: key,
           scrollDirection: scrollDirection,
           reverse: reverse,
@@ -642,6 +647,8 @@ class ExtendedListView extends BoxScrollView {
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// If non-null, forces the children to have the given extent in the scroll
@@ -651,7 +658,7 @@ class ExtendedListView extends BoxScrollView {
   /// determine their own extent because the scrolling machinery can make use of
   /// the foreknowledge of the children's extent to save work, for example when
   /// the scroll position changes drastically.
-  final double itemExtent;
+  final double? itemExtent;
 
   /// A delegate that provides the children for the [ExtendedListView].
   ///
@@ -669,7 +676,7 @@ class ExtendedListView extends BoxScrollView {
     if (itemExtent != null) {
       return ExtendedSliverFixedExtentList(
         delegate: childrenDelegate,
-        itemExtent: itemExtent,
+        itemExtent: itemExtent!,
         extendedListDelegate: extendedListDelegate,
       );
     }
@@ -893,27 +900,28 @@ class ExtendedGridView extends BoxScrollView {
   /// [SliverChildListDelegate.addRepaintBoundaries] property. Both must not be
   /// null.
   ExtendedGridView({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required this.gridDelegate,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
+    double? cacheExtent,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
-    @required this.extendedListDelegate,
+    int? semanticChildCount,
+    required this.extendedListDelegate,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
+    Clip clipBehavior = Clip.hardEdge,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        childrenDelegate = SliverChildListDelegate(
+    String? restorationId,
+  })  : childrenDelegate = SliverChildListDelegate(
           children,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
           addRepaintBoundaries: addRepaintBoundaries,
@@ -932,6 +940,8 @@ class ExtendedGridView extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets that are created on demand.
@@ -954,28 +964,29 @@ class ExtendedGridView extends BoxScrollView {
   /// [SliverChildBuilderDelegate.addRepaintBoundaries] property. Both must not
   /// be null.
   ExtendedGridView.builder({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required this.gridDelegate,
-    @required IndexedWidgetBuilder itemBuilder,
-    int itemCount,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,
+    required IndexedWidgetBuilder itemBuilder,
+    int? itemCount,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
-    int semanticChildCount,
-    @required this.extendedListDelegate,
+    double? cacheExtent,
+    int? semanticChildCount,
+    required this.extendedListDelegate,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        childrenDelegate = SliverChildBuilderDelegate(
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
+  })  : childrenDelegate = SliverChildBuilderDelegate(
           itemBuilder,
           childCount: itemCount,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
@@ -995,6 +1006,8 @@ class ExtendedGridView extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? itemCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with both a custom
@@ -1005,25 +1018,25 @@ class ExtendedGridView extends BoxScrollView {
   ///
   /// The [gridDelegate] and [childrenDelegate] arguments must not be null.
   const ExtendedGridView.custom({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required this.gridDelegate,
-    @required this.childrenDelegate,
-    double cacheExtent,
-    int semanticChildCount,
-    @required this.extendedListDelegate,
+    EdgeInsetsGeometry? padding,
+    required this.gridDelegate,
+    required this.childrenDelegate,
+    double? cacheExtent,
+    int? semanticChildCount,
+    required this.extendedListDelegate,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
-  })  : assert(gridDelegate != null),
-        assert(childrenDelegate != null),
-        super(
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
+  }) : super(
           key: key,
           scrollDirection: scrollDirection,
           reverse: reverse,
@@ -1036,6 +1049,8 @@ class ExtendedGridView extends BoxScrollView {
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with a fixed number of tiles in
@@ -1053,28 +1068,30 @@ class ExtendedGridView extends BoxScrollView {
   ///
   ///  * [new SliverGrid.count], the equivalent constructor for [SliverGrid].
   ExtendedGridView.count({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required int crossAxisCount,
+    EdgeInsetsGeometry? padding,
+    required int crossAxisCount,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
-    double cacheExtent,
+    double? cacheExtent,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    @required this.extendedListDelegate,
+    required this.extendedListDelegate,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
@@ -1100,6 +1117,8 @@ class ExtendedGridView extends BoxScrollView {
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// Creates a scrollable, 2D array of widgets with tiles that each have a
@@ -1117,27 +1136,30 @@ class ExtendedGridView extends BoxScrollView {
   ///
   ///  * [new SliverGrid.extent], the equivalent constructor for [SliverGrid].
   ExtendedGridView.extent({
-    Key key,
+    Key? key,
     Axis scrollDirection = Axis.vertical,
     bool reverse = false,
-    ScrollController controller,
-    bool primary,
-    ScrollPhysics physics,
+    ScrollController? controller,
+    bool? primary,
+    ScrollPhysics? physics,
     bool shrinkWrap = false,
-    EdgeInsetsGeometry padding,
-    @required double maxCrossAxisExtent,
+    EdgeInsetsGeometry? padding,
+    required double maxCrossAxisExtent,
     double mainAxisSpacing = 0.0,
     double crossAxisSpacing = 0.0,
     double childAspectRatio = 1.0,
     bool addAutomaticKeepAlives = true,
     bool addRepaintBoundaries = true,
     bool addSemanticIndexes = true,
+    double? cacheExtent,
     List<Widget> children = const <Widget>[],
-    int semanticChildCount,
+    int? semanticChildCount,
     DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-    @required this.extendedListDelegate,
+    required this.extendedListDelegate,
     ScrollViewKeyboardDismissBehavior keyboardDismissBehavior =
         ScrollViewKeyboardDismissBehavior.manual,
+    String? restorationId,
+    Clip clipBehavior = Clip.hardEdge,
   })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,
@@ -1159,9 +1181,12 @@ class ExtendedGridView extends BoxScrollView {
           physics: physics,
           shrinkWrap: shrinkWrap,
           padding: padding,
+          cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount ?? children.length,
           dragStartBehavior: dragStartBehavior,
           keyboardDismissBehavior: keyboardDismissBehavior,
+          restorationId: restorationId,
+          clipBehavior: clipBehavior,
         );
 
   /// A delegate that controls the layout of the children within the [ExtendedGridView].

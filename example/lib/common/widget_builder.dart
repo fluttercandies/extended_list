@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ///
 ///  create by zmtzawqlp on 2019/11/23
 ///
-Widget buildLastWidget({BuildContext context, bool hasMore}) {
+Widget buildLastWidget({required BuildContext context, required bool hasMore}) {
   return Container(
       alignment: Alignment.center,
       color: Colors.grey.withOpacity(0.2),
