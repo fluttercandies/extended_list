@@ -9,7 +9,7 @@ Widget buildLastWidget({required BuildContext context, required bool hasMore}) {
       alignment: Alignment.center,
       color: Colors.grey.withOpacity(0.2),
       //margin: EdgeInsets.only(top: 5.0),
-      padding: const EdgeInsets.symmetric(vertical: kIsWeb ? 10.0 : 5.0),
+      padding: EdgeInsets.symmetric(vertical: kIsWeb ? 10.0 : 5.0),
       child: Text(
         hasMore ? 'loading...' : 'no more',
         style: TextStyle(color: Theme.of(context).primaryColor),
