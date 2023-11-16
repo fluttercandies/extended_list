@@ -40,7 +40,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
   ExtendedRenderSliverFixedExtentBoxAdaptor({
     required RenderSliverBoxChildManager childManager,
     required ExtendedListDelegate extendedListDelegate,
-  })   : _extendedListDelegate = extendedListDelegate,
+  })  : _extendedListDelegate = extendedListDelegate,
         super(childManager: childManager);
 
   ExtendedListDelegate _extendedListDelegate;
@@ -357,7 +357,7 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
       ),
     );
 
-    final double paintExtent = calculatePaintOffset(
+    double paintExtent = calculatePaintOffset(
       constraints,
       from: leadingScrollOffset,
       to: trailingScrollOffset,
@@ -389,6 +389,11 @@ abstract class ExtendedRenderSliverFixedExtentBoxAdaptor
           }
           return itemExtent;
         });
+
+    // fix hittest
+    if (closeToTrailing) {
+      paintExtent += closeToTrailingDistance;
+    }
 
     geometry = SliverGeometry(
       scrollExtent: estimatedMaxScrollOffset,

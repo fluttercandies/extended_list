@@ -324,7 +324,7 @@ class ExtendedListView extends BoxScrollView {
     String? restorationId,
     Clip clipBehavior = Clip.hardEdge,
     required this.extendedListDelegate,
-  })   : childrenDelegate = SliverChildListDelegate(
+  })  : childrenDelegate = SliverChildListDelegate(
           children,
           addAutomaticKeepAlives: addAutomaticKeepAlives,
           addRepaintBoundaries: addRepaintBoundaries,

@@ -28,7 +28,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
     required RenderSliverBoxChildManager childManager,
     required SliverGridDelegate gridDelegate,
     required ExtendedListDelegate extendedListDelegate,
-  })   : _gridDelegate = gridDelegate,
+  })  : _gridDelegate = gridDelegate,
         _extendedListDelegate = extendedListDelegate,
         super(childManager: childManager);
 
@@ -247,7 +247,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
       estimatedTotalExtent = result;
     }
 
-    final double paintExtent = calculatePaintOffset(
+    double paintExtent = calculatePaintOffset(
       constraints,
       from: math.min(constraints.scrollOffset, leadingScrollOffset),
       to: trailingScrollOffset,
@@ -290,6 +290,11 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
             return gridGeometry.trailingScrollOffset -
                 childParentData.layoutOffset!;
           });
+    }
+
+    //fix hittest
+    if (closeToTrailing) {
+      paintExtent += closeToTrailingDistance;
     }
 
     geometry = SliverGeometry(

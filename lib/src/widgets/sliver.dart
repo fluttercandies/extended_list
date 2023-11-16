@@ -218,7 +218,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
     required this.extendedListDelegate,
-  })   : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
+  })  : gridDelegate = SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,
@@ -243,7 +243,7 @@ class ExtendedSliverGrid extends SliverMultiBoxAdaptorWidget {
     double childAspectRatio = 1.0,
     List<Widget> children = const <Widget>[],
     required this.extendedListDelegate,
-  })   : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+  })  : gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: maxCrossAxisExtent,
           mainAxisSpacing: mainAxisSpacing,
           crossAxisSpacing: crossAxisSpacing,

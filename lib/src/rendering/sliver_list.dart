@@ -40,7 +40,7 @@ class ExtendedRenderSliverList extends RenderSliverMultiBoxAdaptor
   ExtendedRenderSliverList({
     required RenderSliverBoxChildManager childManager,
     required ExtendedListDelegate extendedListDelegate,
-  })   : _extendedListDelegate = extendedListDelegate,
+  })  : _extendedListDelegate = extendedListDelegate,
         super(childManager: childManager);
 
   ExtendedListDelegate _extendedListDelegate;

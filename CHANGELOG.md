@@ -1,3 +1,8 @@
+## 3.0.1
+
+* fix closeToTrailing hittest issue.
+
+
 ## 3.0.0
 
 * support null-safety
