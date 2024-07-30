@@ -34,8 +34,9 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
 
   @override
   void setupParentData(RenderObject child) {
-    if (child.parentData is! SliverGridParentData)
+    if (child.parentData is! SliverGridParentData) {
       child.parentData = SliverGridParentData();
+    }
   }
 
   /// The delegate that controls the size and position of the children.
@@ -295,6 +296,7 @@ class ExtendedRenderSliverGrid extends RenderSliverMultiBoxAdaptor
     //fix hittest
     if (closeToTrailing) {
       paintExtent += closeToTrailingDistance;
+      paintExtent = math.min(paintExtent, estimatedTotalExtent);
     }
 
     geometry = SliverGeometry(

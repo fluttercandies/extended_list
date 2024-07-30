@@ -1,3 +1,7 @@
+## 3.0.2
+
+* fix issue that SliverGeometry is not valid: The "maxPaintExtent" is less than the "paintExtent".(#11)
+
 ## 3.0.1
 
 * fix closeToTrailing hittest issue.
